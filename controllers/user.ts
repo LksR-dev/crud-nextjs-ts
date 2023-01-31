@@ -1,7 +1,7 @@
 import dbConnect from 'lib/connection';
-import User, { UserInterface } from 'models/user';
+import User, { UserInterface, UserWithIDInterface } from 'models/user';
 
-export async function createUser(email: string): Promise<UserInterface> {
+export async function createUser(email: string): Promise<UserWithIDInterface> {
 	try {
 		const newUser = new User({
 			email,

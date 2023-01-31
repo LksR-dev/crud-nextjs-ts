@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose, { Schema, model, Types } from 'mongoose';
 
 export interface AddressInterface {
 	zipCode: string;
@@ -17,6 +17,10 @@ export interface UserInterface {
 	phone: { areaCode: string; number: number };
 	identification: { type: string; number: string };
 	address: AddressInterface;
+}
+
+export interface UserWithIDInterface extends UserInterface {
+	_id: Types.ObjectId;
 }
 
 const userSchema = new Schema<UserInterface>({
