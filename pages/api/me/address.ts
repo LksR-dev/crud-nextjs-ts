@@ -8,28 +8,19 @@ export default async function findOrCreateUser(
 	res: NextApiResponse,
 ): Promise<UserInterface | void> {
 	try {
-		let userId: string;
+		if (req.method !== 'PATCH') {
+			return res.status(501).send({
+				Message: `This method is not allowed ${req.method}. Only can support POST method`,
+			});
+		}
 		const authorization = req.headers.authorization;
 		if (authorization) {
 			const { userID }: UserTokenDecoded = decodeToken(authorization);
-			userId = userID;
+			const userUpdated: UserInterface = await updateUserByID(userID, req.body);
+			res.status(200).json(userUpdated);
 		} else {
 			return res.status(401).json({ Message: 'Missing authorization in the headers.' });
 		}
-
-		if (req.method === 'GET') {
-			const newUser: UserInterface = await findUserByID(userId);
-			res.status(201).json(newUser);
-			return;
-		}
-		if (req.method === 'PATCH') {
-			const userUpdated: UserInterface = await updateUserByID(userId, req.body);
-			res.status(200).json(userUpdated);
-			return;
-		}
-		return res.status(501).send({
-			Message: `This method is not allowed ${req.method}. Only can support POST method`,
-		});
 	} catch (e) {
 		console.error({ Message: 'Error at endpoint auth', Error: e });
 		res.status(500).send('Error on the server.');
