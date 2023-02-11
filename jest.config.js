@@ -5,5 +5,6 @@ module.exports = {
 	verbose: true,
 	roots: ['<rootDir>'],
 	modulePaths: ['.'], // <-- This will be set to 'baseUrl' value
-	setupFiles: ['<rootDir>/.jest/setEnvVars.js'],
+	// setupFiles: ['<rootDir>/.jest/setEnvVars.js'],
+	setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

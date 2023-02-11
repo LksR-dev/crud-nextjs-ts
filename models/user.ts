@@ -1,27 +1,5 @@
-import mongoose, { Schema, model, Types } from 'mongoose';
-
-export interface AddressInterface {
-	zipCode: string;
-	streetName: string;
-	cityName: string;
-	stateName: string;
-	streetNumber: number;
-	floor?: string;
-	apartment?: string;
-}
-
-export interface UserInterface {
-	email: string;
-	name: string;
-	surname: string;
-	phone: { areaCode: string; number: number };
-	identification: { type: string; number: string };
-	address: AddressInterface;
-}
-
-export interface UserWithIDInterface extends UserInterface {
-	_id: Types.ObjectId;
-}
+import mongoose, { Schema, model } from 'mongoose';
+import { UserInterface } from 'lib/types';
 
 const userSchema = new Schema<UserInterface>({
 	email: { type: String, required: [true, 'Debes ingresar un email.'] },

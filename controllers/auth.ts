@@ -1,23 +1,23 @@
 import dbConnect from 'lib/connection';
-import Auth, { AuthUser } from 'models/auth';
+import Auth from 'models/auth';
 import { createUser } from './user';
 import sendCode from 'lib/sendgrid';
 import { addMinutesToDate, isCodeExpired } from 'lib/date';
-import { UserInterface } from 'models/user';
+import { UserInterface, AuthUser } from 'lib/types';
 
 function getRandomIntToString() {
-	return (Math.floor(Math.random() * Math.ceil(99999 - 10000)) + 10000).toString();
+	return (Math.floor(Math.random() * (99999 - 10000)) + 10000).toString();
 }
 
-async function createAuth(data: AuthUser) {
+async function createAuth(data: AuthUser): Promise<AuthUser> {
 	const { email, userID, code, expires } = data;
 	try {
 		const newAuth = new Auth({ email, userID, code, expires });
-		const authSaved = await newAuth.save();
+		const authSaved: AuthUser = await newAuth.save();
 		return authSaved;
 	} catch (e) {
 		console.error({ Message: 'Error to create auth', Error: e });
-		throw e;
+		return e;
 	}
 }
 
@@ -39,7 +39,7 @@ export async function findOrCreateAuthWithEmail(email: string) {
 			return { email: auth.email, code: randomCode };
 		} else {
 			const newUser = await createUser(cleanEmail);
-			const newAuth = await createAuth({
+			const newAuth: AuthUser = await createAuth({
 				email: cleanEmail,
 				userID: newUser._id.toString(),
 				code: randomCode,
@@ -50,7 +50,7 @@ export async function findOrCreateAuthWithEmail(email: string) {
 		}
 	} catch (e) {
 		console.error({ Message: 'Error to find or create auth with email', Error: e });
-		throw e;
+		return e;
 	}
 }
 
@@ -64,11 +64,10 @@ export async function checkUserEmailAndCodeAuth(email: string, code: string) {
 		if (authUser && authUser.code === code && !isCodeExpired(authUser.expires)) {
 			return authUser.userID;
 		} else {
-			console.error('Maybe your email or code is incorrect o expires.');
-			throw null;
+			console.error('Your email or code is incorrect o expires.');
 		}
 	} catch (e) {
 		console.error({ Message: 'Problems to check email and code auth.', Error: e });
-		throw e;
+		return e;
 	}
 }

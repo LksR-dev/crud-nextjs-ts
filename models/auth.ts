@@ -1,11 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose';
-
-export interface AuthUser {
-	email: string;
-	code: string;
-	expires: Date;
-	userID: string;
-}
+import { AuthUser } from 'lib/types';
 
 const authSchema = new Schema<AuthUser>({
 	email: { type: String, required: [true, 'Debes ingresar un email.'] },

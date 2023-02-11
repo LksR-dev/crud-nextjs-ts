@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { checkUserEmailAndCodeAuth } from 'controllers/auth';
-import { generate } from 'lib/jwt';
+import { generateToken } from 'lib/jwt';
 
 export default async function sendCodeAndGetToken(
 	req: NextApiRequest,
@@ -16,7 +16,7 @@ export default async function sendCodeAndGetToken(
 		}
 		const userID = await checkUserEmailAndCodeAuth(email, code);
 		if (userID) {
-			const token = generate({ userID });
+			const token = generateToken({ userID });
 			res.status(201).send({ token });
 		} else {
 			res.status(401).send({ Message: 'Email or code is incorrect.' });

@@ -1,7 +1,8 @@
 import dbConnect from 'lib/connection';
-import User, { UserInterface, UserWithIDInterface } from 'models/user';
+import User from 'models/user';
+import { UserInterface, UserWithIDInterface } from 'lib/types';
 
-export async function createUser(email: string): Promise<UserWithIDInterface> {
+export async function createUser(email: string): Promise<UserInterface> {
 	try {
 		const newUser = new User({
 			email,
@@ -11,10 +12,11 @@ export async function createUser(email: string): Promise<UserWithIDInterface> {
 			identification: {},
 			phone: {},
 		});
-		const userSaved = await newUser.save();
+		const userSaved: UserInterface = await newUser.save();
 		return userSaved;
 	} catch (e) {
 		console.error({ Message: 'Error to create user', Error: e });
+		return e;
 	}
 }
 
@@ -25,25 +27,30 @@ export async function findAllUser(): Promise<UserInterface[]> {
 		return allUsers;
 	} catch (e) {
 		console.error({ Message: 'Error to find user', Error: e });
+		return e;
 	}
 }
 
 export async function findUserByID(id: string): Promise<UserInterface> {
 	await dbConnect();
 	try {
-		const userByID = await User.findById(id).exec();
+		const userByID: UserInterface = await User.findById(id).exec();
 		return userByID;
 	} catch (e) {
 		console.error({ Message: 'Error to find user by id', Error: e });
+		return e;
 	}
 }
 
 export async function updateUserByID(id: string, data: UserInterface): Promise<UserInterface> {
 	await dbConnect();
 	try {
-		const userUpdated = await User.findByIdAndUpdate(id, data, { returnDocument: 'after' });
+		const userUpdated: UserInterface = await User.findByIdAndUpdate(id, data, {
+			returnDocument: 'after',
+		});
 		return userUpdated;
 	} catch (e) {
 		console.error({ Message: 'Error to update user by id', Error: e });
+		return e;
 	}
 }

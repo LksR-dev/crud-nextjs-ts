@@ -1,13 +1,5 @@
 import mongoose, { Schema, model } from 'mongoose';
-import { DB } from 'lib/connection';
-import { UserInterface, AddressInterface } from './user';
-
-export interface OrderInterface {
-	userID: string;
-	productID: number;
-	productDetails: {};
-	status: string;
-}
+import { OrderInterface } from 'lib/types';
 
 const orderSchema = new Schema<OrderInterface>({
 	userID: { type: String, required: [true, 'Debes ingresar el id del usuario.'] },
