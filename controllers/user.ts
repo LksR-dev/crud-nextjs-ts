@@ -14,9 +14,9 @@ export async function createUser(email: string): Promise<UserInterface> {
 		});
 		const userSaved: UserInterface = await newUser.save();
 		return userSaved;
-	} catch (e) {
-		console.error({ Message: 'Error to create user', Error: e });
-		return e;
+	} catch (error) {
+		console.error({ Message: 'Error to create user', Error: error.message });
+		throw error;
 	}
 }
 
@@ -25,9 +25,9 @@ export async function findAllUser(): Promise<UserInterface[]> {
 	try {
 		const allUsers = await User.find({});
 		return allUsers;
-	} catch (e) {
-		console.error({ Message: 'Error to find user', Error: e });
-		return e;
+	} catch (error) {
+		console.error({ Message: 'Error to find user', Error: error.message });
+		throw error;
 	}
 }
 
@@ -36,9 +36,9 @@ export async function findUserByID(id: string): Promise<UserInterface> {
 	try {
 		const userByID: UserInterface = await User.findById(id).exec();
 		return userByID;
-	} catch (e) {
-		console.error({ Message: 'Error to find user by id', Error: e });
-		return e;
+	} catch (error) {
+		console.error({ Message: 'Error to find user by id', Error: error.message });
+		throw error;
 	}
 }
 
@@ -49,8 +49,8 @@ export async function updateUserByID(id: string, data: UserInterface): Promise<U
 			returnDocument: 'after',
 		});
 		return userUpdated;
-	} catch (e) {
-		console.error({ Message: 'Error to update user by id', Error: e });
-		return e;
+	} catch (error) {
+		console.error({ Message: 'Error to update user by id', Error: error.message });
+		throw error;
 	}
 }

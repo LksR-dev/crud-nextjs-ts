@@ -10,8 +10,8 @@ export function isCodeExpired(isDataExpires) {
 		const now = new Date();
 		const expires = toDate(isDataExpires);
 		return isAfter(now, expires);
-	} catch (e) {
-		console.error({ Message: 'Data is expires', Error: e });
-		return null;
+	} catch (error) {
+		console.error({ Message: 'Data is expires', Error: error.message });
+		throw error;
 	}
 }

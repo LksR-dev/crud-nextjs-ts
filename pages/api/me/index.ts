@@ -31,7 +31,7 @@ export default async function findOrCreateUser(
 			Message: `This method is not allowed ${req.method}. Only can support POST method`,
 		});
 	} catch (e) {
-		console.error({ Message: 'Error at endpoint auth', Error: e });
+		console.error({ Message: 'Error at endpoint me', Error: e });
 		res.status(500).send('Error on the server.');
 	}
 }

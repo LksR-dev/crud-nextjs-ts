@@ -22,7 +22,7 @@ export default async function findOrCreateUser(
 			return res.status(401).json({ Message: 'Missing authorization in the headers.' });
 		}
 	} catch (e) {
-		console.error({ Message: 'Error at endpoint auth', Error: e });
+		console.error({ Message: 'Error at endpoint address', Error: e });
 		res.status(500).send('Error on the server.');
 	}
 }

@@ -12,6 +12,7 @@ export function decodeToken(token): UserTokenDecoded {
 		const decoded: UserTokenDecoded = jwt.verify(splitedToken[1], process.env.JWT_SECRET);
 		return decoded;
 	} catch (error) {
-		console.error({ Message: 'Error in decode token', error });
+		console.error({ Message: 'Error in decode token', Error: error.message });
+		throw error;
 	}
 }

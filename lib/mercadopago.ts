@@ -16,7 +16,8 @@ export async function createPreference(preference) {
 	try {
 		const res = await mercadopago.preferences.create(preference);
 		return res.body['init_point'];
-	} catch (err) {
-		console.error(err);
+	} catch (error) {
+		console.error({ Message: 'Error at create preference', Error: error.message });
+		throw error;
 	}
 }
