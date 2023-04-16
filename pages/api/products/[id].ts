@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { searchProducts } from 'controllers/algolia';
+import { searchProductAlgolia } from 'controllers/algolia';
 import { UserInterface } from 'lib/types';
-import { getOffsetAndLimitFromQuery } from 'lib/requests';
 
-export default async function searchProductsQuery(
+export default async function searchProduct(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ): Promise<UserInterface | void> {
@@ -13,17 +12,9 @@ export default async function searchProductsQuery(
 				Message: `This method is not allowed ${req.method}. Only can support GET method`,
 			});
 		}
-		const { limit, offset } = getOffsetAndLimitFromQuery(req);
-		const { product } = req.query;
-		const products = await searchProducts(product as string, { limit, offset });
-		res.status(200).json({
-			results: products.products,
-			pagination: {
-				limit,
-				offset,
-				total: products.total,
-			},
-		});
+		const { id } = req.query;
+		const product = await searchProductAlgolia(id as string);
+		res.status(200).json({ product });
 	} catch (e) {
 		console.error({ Message: 'Error at endpoint auth', Error: e });
 		res.status(500).send('Error on the server.');

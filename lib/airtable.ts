@@ -5,6 +5,7 @@ export const airtableBase = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY 
 
 export function syncProductsFromAirtableToAlgolia(limit: number, productsIndex) {
 	try {
+		productsIndex.clearObjects();
 		// use `firstPage` instead of `eachPage`.
 		airtableBase('Furniture')
 			.select({

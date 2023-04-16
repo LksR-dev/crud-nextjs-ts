@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { findUserByID, updateUserByID } from 'controllers/user';
+import { updateUserByID } from 'controllers/user';
 import { decodeToken } from 'lib/jwt';
 import { UserInterface, UserTokenDecoded } from 'lib/types';
 

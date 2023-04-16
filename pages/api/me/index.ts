@@ -28,7 +28,7 @@ export default async function findOrCreateUser(
 			return;
 		}
 		return res.status(501).send({
-			Message: `This method is not allowed ${req.method}. Only can support POST method`,
+			Message: `This method is not allowed ${req.method}. Only can support GET or PATCH method`,
 		});
 	} catch (e) {
 		console.error({ Message: 'Error at endpoint me', Error: e });
