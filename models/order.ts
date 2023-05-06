@@ -5,7 +5,7 @@ const orderSchema = new Schema<OrderInterface>({
 	userID: { type: String, required: [true, 'Debes ingresar el id del usuario.'] },
 	status: {
 		type: String,
-		required: [true, 'Debes ingresar el id del usuario.'],
+		required: [true, 'Debes ingresar el status del pedido.'],
 		default: 'pending',
 	},
 	productID: { type: Number, required: [true, 'Debes ingresar el id del producto.'] },

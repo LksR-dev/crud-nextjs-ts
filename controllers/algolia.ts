@@ -16,7 +16,7 @@ export async function searchProducts(
 			Message: 'Error at algolia search products controller.',
 			Error: error.message,
 		});
-		return error;
+		throw error;
 	}
 }
 
@@ -24,6 +24,18 @@ export async function searchProductAlgolia(id: string) {
 	try {
 		const product = await productsIndex.getObject(id);
 		return product;
+	} catch (error) {
+		console.error({ Message: 'Error to get a product in algolia', Error: error.message });
+		throw error;
+	}
+}
+
+export async function searchProductsByIDsAlgolia(id: Array<string>) {
+	try {
+		const products = await productsIndex.browseObjects({
+			objectIDs: id,
+		});
+		return products;
 	} catch (error) {
 		console.error({ Message: 'Error to get a product in algolia', Error: error.message });
 		throw error;

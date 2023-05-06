@@ -41,3 +41,31 @@ export type UserTokenDecoded = {
 	userID: string;
 	iat: number;
 };
+
+export interface Preference {
+	items: [
+		{
+			title: string;
+			description: string;
+			picture_url: string;
+			category_id: string;
+			unit_price: number;
+			currency_id: 'ARS';
+			quantity: number;
+		},
+	];
+	payer: {
+		phone: string;
+		identification: { type: string; number: string };
+		address: AddressInterface;
+		email: string;
+		name: string;
+		surname: string;
+	};
+	back_urls: {
+		succes: string;
+		pending: string;
+	};
+	external_reference: number;
+	notification_url: string;
+}
