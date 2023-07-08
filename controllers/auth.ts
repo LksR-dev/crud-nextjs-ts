@@ -3,7 +3,7 @@ import Auth from 'models/auth';
 import { createUser } from './user';
 import sendCode from 'lib/sendgrid';
 import { addMinutesToDate, isCodeExpired } from 'lib/date';
-import { AuthUser, UserWithIDInterface } from 'lib/types';
+import { AuthUser } from 'lib/types';
 
 function getRandomIntToString() {
 	return (Math.floor(Math.random() * (99999 - 10000)) + 10000).toString();
@@ -38,10 +38,11 @@ export async function findOrCreateAuthWithEmail(email: string) {
 			await sendCode(userAuthUpdated.email, randomCode);
 			return { email: auth.email, code: randomCode };
 		} else {
-			const newUser = (await createUser(cleanEmail)) as UserWithIDInterface;
+			const newUser = await createUser(cleanEmail);
+			console.log(newUser.id.toString());
 			const newAuth: AuthUser = await createAuth({
 				email: cleanEmail,
-				userID: newUser._id.toString(),
+				userID: newUser.id.toString(),
 				code: randomCode,
 				expires: addMinutesToDate(),
 			});
