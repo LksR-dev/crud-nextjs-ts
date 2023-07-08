@@ -39,7 +39,6 @@ export async function findOrCreateAuthWithEmail(email: string) {
 			return { email: auth.email, code: randomCode };
 		} else {
 			const newUser = await createUser(cleanEmail);
-			console.log(newUser.id.toString());
 			const newAuth: AuthUser = await createAuth({
 				email: cleanEmail,
 				userID: newUser.id.toString(),

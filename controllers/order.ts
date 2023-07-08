@@ -38,7 +38,7 @@ function createPreferenceStructure(
 			pending: 'https://www.google.com/',
 		},
 		external_reference: orderID,
-		notification_url: 'localhost:3000/api/webhooks/mercadopago',
+		notification_url: 'https://crud-nextjs-ts.vercel.app/api/webhooks/mercadopago',
 	};
 	return preference;
 }
