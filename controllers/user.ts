@@ -23,7 +23,7 @@ export async function createUser(email: string): Promise<UserInterface> {
 export async function findAllUser(): Promise<UserInterface[]> {
 	await dbConnect();
 	try {
-		const allUsers = await User.find({});
+		const allUsers: UserInterface[] = await User.find({});
 		return allUsers;
 	} catch (error) {
 		console.error({ Message: 'Error to find user', Error: error.message });

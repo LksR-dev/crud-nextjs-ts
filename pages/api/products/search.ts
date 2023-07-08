@@ -17,7 +17,7 @@ export default async function searchProductsQuery(
 		const { product } = req.query;
 		const products = await searchProducts(product as string, { limit, offset });
 		res.status(200).json({
-			results: products.products,
+			results: products,
 			pagination: {
 				limit,
 				offset,

@@ -8,6 +8,7 @@ export interface AuthUser {
 }
 
 export interface UserInterface {
+	id: string;
 	email: string;
 	name: string;
 	surname: string;
@@ -55,7 +56,7 @@ export interface Preference {
 		},
 	];
 	payer: {
-		phone: string;
+		phone: { areaCode: string; number: number };
 		identification: { type: string; number: string };
 		address: AddressInterface;
 		email: string;
@@ -68,4 +69,13 @@ export interface Preference {
 	};
 	external_reference: number;
 	notification_url: string;
+}
+
+export interface ProductInterface {
+	product_id: string;
+	title: string;
+	description: string;
+	picture_url: string;
+	category_id: string;
+	unit_price: number;
 }

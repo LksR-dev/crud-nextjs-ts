@@ -34,7 +34,10 @@ export default async function dbConnect() {
 			console.log('se conecta a la db');
 			return mongoose;
 		})
-		.catch((err) => console.log(err));
+		.catch((err) => {
+			console.log('entre al catch');
+			console.log(err);
+		});
 	cached.connection = await cached.promise;
 
 	return cached.conn;

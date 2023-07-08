@@ -1,14 +1,20 @@
-import { findOrCreateAuthWithEmail } from '../../controllers/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getOrder } from 'controllers/order';
+import { UserInterface } from 'lib/types';
 
-export default async function prueba(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function searchOrder(
+	req: NextApiRequest,
+	res: NextApiResponse,
+): Promise<UserInterface | void> {
 	try {
 		if (req.method !== 'GET') {
 			return res.status(501).send({
 				Message: `This method is not allowed ${req.method}. Only can support GET method`,
 			});
 		}
-		res.status(201).json('ok');
+		const { id } = req.query;
+		const order = await getOrder(id as string);
+		res.status(200).json({ order });
 	} catch (e) {
 		console.error({ Message: 'Error at endpoint auth', Error: e });
 		res.status(500).send('Error on the server.');

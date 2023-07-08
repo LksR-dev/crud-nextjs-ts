@@ -7,13 +7,13 @@ export default async function syncProducts(
 	res: NextApiResponse,
 ): Promise<void> {
 	try {
-		if (req.method !== 'POST') {
+		if (req.method !== 'GET') {
 			return res.status(501).send({
-				Message: `This method is not allowed ${req.method}. Only can support POST method`,
+				Message: `This method is not allowed ${req.method}. Only can support GET method`,
 			});
 		}
 		const { limit } = req.query;
-		await syncProductsFromAirtableToAlgolia(Number(limit), productsIndex);
+		syncProductsFromAirtableToAlgolia(Number(limit), productsIndex);
 		res.status(201).json('Airtable has been sync with algolia.');
 	} catch (e) {
 		console.error({ Message: 'Error at endpoint auth', Error: e });

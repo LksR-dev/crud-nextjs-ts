@@ -14,9 +14,25 @@ export function syncProductsFromAirtableToAlgolia(limit: number, productsIndex) 
 			.eachPage(
 				async function (records, fetchNextPage) {
 					const objects = records.map((r) => {
+						const fields = r.fields;
+
+						const filteredImages = () => {
+							const images = fields.Images as [];
+							return images.map((image) => {
+								const { url, thumbnails } = image;
+								return { url, thumbnails };
+							});
+						};
+						const fieldsToReturn = {
+							color: fields.Color,
+							description: fields.Description,
+							images: filteredImages(),
+							stock: fields['In stock'],
+							title: fields.title,
+						};
 						return {
 							objectID: r.id,
-							...r.fields,
+							fields: fieldsToReturn,
 						};
 					});
 					await productsIndex.saveObjects(objects);

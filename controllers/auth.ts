@@ -3,7 +3,7 @@ import Auth from 'models/auth';
 import { createUser } from './user';
 import sendCode from 'lib/sendgrid';
 import { addMinutesToDate, isCodeExpired } from 'lib/date';
-import { UserInterface, AuthUser, UserWithIDInterface } from 'lib/types';
+import { AuthUser, UserWithIDInterface } from 'lib/types';
 
 function getRandomIntToString() {
 	return (Math.floor(Math.random() * (99999 - 10000)) + 10000).toString();

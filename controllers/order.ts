@@ -1,11 +1,17 @@
 import dbConnect from 'lib/connection';
 import Order from 'models/order';
 import { findUserByID } from 'controllers/user';
-import { Preference } from 'lib/types';
+import { Preference, UserInterface, ProductInterface } from 'lib/types';
 import { createPreference, getMerchantOrder } from 'lib/mercadopago';
+import { sendOrderEmail } from 'lib/sendgrid';
 
-function createPreferenceStructure(userData, productData, productDetails, orderID) {
-	const { title, description, picture_url, category_id, unit_price, quantity } = productData;
+function createPreferenceStructure(
+	userData: UserInterface,
+	productData: ProductInterface,
+	productDetails,
+	orderID,
+) {
+	const { title, description, picture_url, category_id, unit_price } = productData;
 	const { phone, identification, address, email, name, surname } = userData;
 	const preference: Preference = {
 		items: [
@@ -37,7 +43,11 @@ function createPreferenceStructure(userData, productData, productDetails, orderI
 	return preference;
 }
 
-export async function createOrderDB(userData, productData, productDetails) {
+export async function createOrderDB(
+	userData: UserInterface,
+	productData: ProductInterface,
+	productDetails,
+) {
 	await dbConnect();
 	try {
 		const newOrder = new Order({
@@ -76,9 +86,29 @@ export async function changeOrderStatusAndNotifyUser(id: string, topic: string) 
 						returnDocument: 'after',
 					},
 				);
-				const user = await findUserByID(updatedOrderDB.userID);
+				const { userID, productDetails, productID } = updatedOrderDB;
+				const user = await findUserByID(userID);
+				await sendOrderEmail(user.email, productDetails, productID);
 			}
 		}
+	} catch (error) {
+		console.error({ Message: 'Error to change order status and notify user', Error: error });
+		throw error;
+	}
+}
+
+export async function getMyOrders(userID: string) {
+	try {
+		return await Order.find({ userID });
+	} catch (error) {
+		console.error({ Message: 'Error to change order status and notify user', Error: error });
+		throw error;
+	}
+}
+
+export async function getOrder(id: string) {
+	try {
+		return await Order.findById(id);
 	} catch (error) {
 		console.error({ Message: 'Error to change order status and notify user', Error: error });
 		throw error;

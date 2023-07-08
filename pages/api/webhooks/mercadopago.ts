@@ -10,7 +10,7 @@ export default async function mercadopago(req: NextApiRequest, res: NextApiRespo
 		}
 		const { id, topic } = req.query;
 		const result = await changeOrderStatusAndNotifyUser(id as string, topic as string);
-		res.send('ok');
+		res.status(200).send(result);
 	} catch (error) {
 		res.status(400).json(error);
 	}
