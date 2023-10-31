@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { changeOrderStatusAndNotifyUser } from 'controllers/order';
 import { handlerCORS } from 'lib/middlewares';
 
-export default async function mercadopago(req: NextApiRequest, res: NextApiResponse) {
+async function mercadopago(req: NextApiRequest, res: NextApiResponse) {
 	try {
 		if (req.method !== 'POST') {
 			return res.status(501).send({
@@ -16,3 +16,4 @@ export default async function mercadopago(req: NextApiRequest, res: NextApiRespo
 		res.status(400).json(error);
 	}
 }
+export default handlerCORS(mercadopago);

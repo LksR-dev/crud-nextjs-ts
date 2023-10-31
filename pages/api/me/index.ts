@@ -4,10 +4,7 @@ import { decodeToken } from 'lib/jwt';
 import { UserInterface, UserTokenDecoded } from 'lib/types';
 import { handlerCORS } from 'lib/middlewares';
 
-export default async function user(
-	req: NextApiRequest,
-	res: NextApiResponse,
-): Promise<UserInterface | void> {
+async function user(req: NextApiRequest, res: NextApiResponse): Promise<UserInterface | void> {
 	try {
 		let userId: string;
 		const authorization = req.headers.authorization;
@@ -36,3 +33,4 @@ export default async function user(
 		res.status(500).send('Error on the server.');
 	}
 }
+export default handlerCORS(user);

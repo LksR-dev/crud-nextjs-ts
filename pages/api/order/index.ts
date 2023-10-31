@@ -24,4 +24,4 @@ async function createOrder(req: NextApiRequest, res: NextApiResponse, token) {
 		res.status(500).send('Error on the server.');
 	}
 }
-export default authMiddleware(createOrder);
+export default handlerCORS(authMiddleware(createOrder));

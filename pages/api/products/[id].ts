@@ -3,7 +3,7 @@ import { searchProductAlgolia } from 'controllers/algolia';
 import { UserInterface } from 'lib/types';
 import { handlerCORS } from 'lib/middlewares';
 
-export default async function searchProduct(
+async function searchProduct(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ): Promise<UserInterface | void> {
@@ -21,3 +21,4 @@ export default async function searchProduct(
 		res.status(500).send('Error on the server.');
 	}
 }
+export default handlerCORS(searchProduct);
