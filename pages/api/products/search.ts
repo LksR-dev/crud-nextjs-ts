@@ -2,8 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { searchProducts } from 'controllers/algolia';
 import { UserInterface } from 'lib/types';
 import { getOffsetAndLimitFromQuery } from 'lib/requests';
+import { handlerCORS } from 'lib/middlewares';
 
-export default async function searchProductsQuery(
+async function searchProductsQuery(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ): Promise<UserInterface | void> {
@@ -29,3 +30,4 @@ export default async function searchProductsQuery(
 		res.status(500).send('Error on the server.');
 	}
 }
+export default handlerCORS(searchProductsQuery);

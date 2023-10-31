@@ -2,8 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { updateUserByID } from 'controllers/user';
 import { decodeToken } from 'lib/jwt';
 import { UserInterface, UserTokenDecoded } from 'lib/types';
+import { handlerCORS } from 'lib/middlewares';
 
-export default async function findOrCreateUser(
+async function findOrCreateUser(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ): Promise<UserInterface | void> {
@@ -26,3 +27,5 @@ export default async function findOrCreateUser(
 		res.status(500).send('Error on the server.');
 	}
 }
+
+export default handlerCORS(findOrCreateUser);

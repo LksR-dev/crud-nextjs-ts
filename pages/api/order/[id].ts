@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getOrder } from 'controllers/order';
 import { UserInterface } from 'lib/types';
+import { handlerCORS } from 'lib/middlewares';
 
-export default async function searchOrder(
+async function searchOrder(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ): Promise<UserInterface | void> {
@@ -20,3 +21,4 @@ export default async function searchOrder(
 		res.status(500).send('Error on the server.');
 	}
 }
+export default handlerCORS(searchOrder);

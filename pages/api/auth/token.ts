@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { checkUserEmailAndCodeAuth } from 'controllers/auth';
 import { generateToken } from 'lib/jwt';
+import { handlerCORS } from 'lib/middlewares';
 
-export default async function sendCodeAndGetToken(
-	req: NextApiRequest,
-	res: NextApiResponse,
-): Promise<void> {
+async function sendCodeAndGetToken(req: NextApiRequest, res: NextApiResponse): Promise<void> {
 	const { email, code } = req.body;
 
 	try {
@@ -28,3 +26,4 @@ export default async function sendCodeAndGetToken(
 			.send({ Message: 'Error to generate token, probably missing data in the request body.' });
 	}
 }
+export default handlerCORS(sendCodeAndGetToken);

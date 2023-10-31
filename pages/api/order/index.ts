@@ -4,6 +4,7 @@ import { searchProductAlgolia } from 'controllers/algolia';
 import { createOrderDB } from 'controllers/order';
 import { authMiddleware } from 'lib/middlewares';
 import { UserInterface } from 'lib/types';
+import { handlerCORS } from 'lib/middlewares';
 
 async function createOrder(req: NextApiRequest, res: NextApiResponse, token) {
 	try {
@@ -23,5 +24,4 @@ async function createOrder(req: NextApiRequest, res: NextApiResponse, token) {
 		res.status(500).send('Error on the server.');
 	}
 }
-
-export default authMiddleware(createOrder);
+export default handlerCORS(authMiddleware(createOrder));
