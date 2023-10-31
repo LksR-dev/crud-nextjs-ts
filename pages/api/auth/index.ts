@@ -2,7 +2,10 @@ import { findOrCreateAuthWithEmail } from 'controllers/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { handlerCORS } from 'lib/middlewares';
 
-async function findOrCreateUser(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function findOrCreateUser(
+	req: NextApiRequest,
+	res: NextApiResponse,
+): Promise<void> {
 	try {
 		if (req.method !== 'POST') {
 			return res.status(501).send({
@@ -16,5 +19,3 @@ async function findOrCreateUser(req: NextApiRequest, res: NextApiResponse): Prom
 		res.status(500).send('Error on the server.');
 	}
 }
-
-export default handlerCORS(findOrCreateUser);
