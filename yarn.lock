@@ -2032,15 +2032,10 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.3.0.tgz#5685b95eb209ac9c0c177467778c9c84df58ba9a"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
-caniuse-lite@^1.0.30001400:
-  version "1.0.30001449"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001449.tgz#a8d11f6a814c75c9ce9d851dc53eb1d1dfbcd657"
-  integrity sha512-CPB+UL9XMT/Av+pJxCKGhdx+yg1hzplvFJQlJ2n68PyQGMz9L/E2zCyLdOL8uasbouTUgnPl+y0tccI/se+BEw==
-
-caniuse-lite@^1.0.30001406:
-  version "1.0.30001431"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001431.tgz#e7c59bd1bc518fae03a4656be442ce6c4887a795"
-  integrity sha512-zBUoFU0ZcxpvSt9IU66dXVT/3ctO1cy4y9cscs1szkPlcWb6pasYM144GqrUygUbT+k7cmUCW61cvskjcv0enQ==
+caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001406:
+  version "1.0.30001559"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001559.tgz"
+  integrity sha512-cPiMKZgqgkg5LY3/ntGeLFUpi6tzddBNS58A4tnTgQw1zON7u2sZMU7SzOeVH4tj20++9ggL+V6FDOFMTaFFYA==
 
 caseless@~0.12.0:
   version "0.12.0"
