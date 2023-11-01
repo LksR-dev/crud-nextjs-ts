@@ -45,8 +45,8 @@ export async function findOrCreateAuthWithEmail(email: string) {
 				code: randomCode,
 				expires: addMinutesToDate(),
 			});
-			await sendCode(newAuth.email, newAuth.code);
-			return newAuth;
+			const sengridResponse = await sendCode(newAuth.email, newAuth.code);
+			return { newAuth, sengridResponse };
 		}
 	} catch (e) {
 		console.error({ Message: 'Error to find or create auth with email', Error: e });

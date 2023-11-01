@@ -9,7 +9,6 @@ async function findOrCreateUser(req: NextApiRequest, res: NextApiResponse): Prom
 				Message: `This method is not allowed ${req.method}. Only can support POST method`,
 			});
 		}
-		console.log(req.body);
 		const newAuth = await findOrCreateAuthWithEmail(req.body.email);
 		res.status(201).json(newAuth);
 	} catch (e) {
