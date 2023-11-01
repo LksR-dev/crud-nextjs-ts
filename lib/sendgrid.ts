@@ -1,7 +1,10 @@
 import sgMail from '@sendgrid/mail';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-export default async function sendCode(userEmail: string, code: string): Promise<void> {
+export default async function sendCode(
+	userEmail: string,
+	code: string,
+): Promise<void | { Message: string }> {
 	const msg = {
 		to: userEmail, // Change to your recipient
 		from: 'lucasmruiz05@gmail.com', // Change to your verified sender
@@ -9,7 +12,7 @@ export default async function sendCode(userEmail: string, code: string): Promise
 		text: code,
 		html: `<strong>${code}</strong>`,
 	};
-	sgMail
+	return sgMail
 		.send(msg)
 		.then(() => {
 			return { Message: 'Email sent' };

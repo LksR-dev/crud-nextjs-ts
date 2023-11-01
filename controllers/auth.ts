@@ -35,8 +35,8 @@ export async function findOrCreateAuthWithEmail(email: string) {
 				{ userID: auth.userID },
 				{ code: randomCode, expires: addMinutesToDate() },
 			);
-			await sendCode(userAuthUpdated.email, randomCode);
-			return { email: auth.email, code: randomCode };
+			const sengridResponse = await sendCode(userAuthUpdated.email, randomCode);
+			return { email: auth.email, code: randomCode, sengridResponse };
 		} else {
 			const newUser = await createUser(cleanEmail);
 			const newAuth: AuthUser = await createAuth({
@@ -46,6 +46,7 @@ export async function findOrCreateAuthWithEmail(email: string) {
 				expires: addMinutesToDate(),
 			});
 			const sengridResponse = await sendCode(newAuth.email, newAuth.code);
+			console.log(sengridResponse);
 			return { newAuth, sengridResponse };
 		}
 	} catch (e) {
