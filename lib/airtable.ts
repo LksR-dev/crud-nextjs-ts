@@ -29,6 +29,7 @@ export function syncProductsFromAirtableToAlgolia(limit: number, productsIndex) 
 							images: filteredImages(),
 							stock: fields['In stock'],
 							title: fields.title,
+							unit_price: fields.unit_price,
 						};
 						return {
 							objectID: r.id,
