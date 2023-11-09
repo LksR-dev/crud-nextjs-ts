@@ -21,10 +21,10 @@ export async function searchProducts(
 	}
 }
 
-export async function searchProductAlgolia(id: string) {
+export async function searchProductAlgolia(ids: string[]) {
 	try {
-		const product = (await productsIndex.getObject(id)) as ProductInterface;
-		return product;
+		const products = await productsIndex.getObjects(ids);
+		return products;
 	} catch (error) {
 		console.error({ Message: 'Error to get a product in algolia', Error: error.message });
 		throw error;

@@ -23,7 +23,7 @@ export interface UserWithIDInterface extends UserInterface {
 
 export interface OrderInterface {
 	userID: string;
-	productID: number;
+	productsIDs: string[];
 	productDetails: {};
 	status: string;
 }
@@ -49,7 +49,6 @@ export interface Preference {
 			title: string;
 			description: string;
 			picture_url: string;
-			category_id: string;
 			unit_price: number;
 			currency_id: 'ARS';
 			quantity: number;
@@ -72,10 +71,13 @@ export interface Preference {
 }
 
 export interface ProductInterface {
-	product_id: string;
-	title: string;
-	description: string;
-	picture_url: string;
-	category_id: string;
-	unit_price: number;
+	fields: {
+		title: string;
+		description: string;
+		images: [{ url: string }];
+		stock: boolean;
+		unit_price: number;
+		quantity: number;
+	};
+	objectID: string;
 }

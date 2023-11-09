@@ -13,11 +13,11 @@ async function createOrder(req: NextApiRequest, res: NextApiResponse, token) {
 				Message: `This method is not allowed ${req.method}. Only can support POST method`,
 			});
 		}
-		const { productID } = req.query;
-		if (!productID) return res.status(400).send('Product ID is required');
+		const { productsIDs } = req.body;
+		if (!productsIDs) return res.status(400).send('Product ID is required');
 		const userByID: UserInterface = await findUserByID(token.userID);
-		const productByID = await searchProductAlgolia(productID as string);
-		const orderCreated = await createOrderDB(userByID, productByID, req.body);
+		const productsByIDs = await searchProductAlgolia(productsIDs as string[]);
+		const orderCreated = await createOrderDB(userByID, productsByIDs, productsIDs, req.body);
 		res.status(201).json(orderCreated);
 	} catch (e) {
 		console.error({ Message: 'Error at create order auth', Error: e });

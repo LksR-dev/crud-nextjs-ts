@@ -5,26 +5,21 @@ import { Preference, UserInterface, ProductInterface } from 'lib/types';
 import { createPreference, getMerchantOrder } from 'lib/mercadopago';
 import { sendOrderEmail } from 'lib/sendgrid';
 
-function createPreferenceStructure(
-	userData: UserInterface,
-	productData: ProductInterface,
-	productDetails,
-	orderID,
-) {
-	const { title, description, picture_url, category_id, unit_price } = productData;
+function createPreferenceStructure(userData: UserInterface, productData, orderID) {
+	const items = productData.results.map((product) => {
+		const { title, description, images, unit_price } = product.fields;
+		return {
+			title,
+			description,
+			picture_url: images[0].url,
+			unit_price,
+			currency_id: 'ARS',
+			quantity: 1,
+		};
+	});
 	const { phone, identification, address, email, name, surname } = userData;
 	const preference: Preference = {
-		items: [
-			{
-				title,
-				description,
-				picture_url,
-				category_id,
-				unit_price,
-				currency_id: 'ARS',
-				quantity: productDetails.quantity,
-			},
-		],
+		items,
 		payer: {
 			phone,
 			identification,
@@ -34,36 +29,32 @@ function createPreferenceStructure(
 			surname,
 		},
 		back_urls: {
-			succes: 'https://www.google.com/',
-			pending: 'https://www.google.com/',
+			succes: 'https://ecommerce-front-sage-three.vercel.app/',
+			pending: 'https://ecommerce-front-sage-three.vercel.app/',
 		},
 		external_reference: orderID,
-		notification_url: 'https://crud-nextjs-ts.vercel.app/api/webhooks/mercadopago',
+		notification_url: 'https://webhook.site/09bfb75a-476e-4299-91b9-e97e5504cebc',
 	};
 	return preference;
 }
 
 export async function createOrderDB(
 	userData: UserInterface,
-	productData: ProductInterface,
+	productData,
+	productsIDs: string[],
 	productDetails,
 ) {
 	await dbConnect();
 	try {
 		const newOrder = new Order({
 			userID: userData.id,
-			productID: productData.product_id,
+			productID: productsIDs,
 			productDetails,
 			status: 'pending',
 		});
 		const orderSaved = await newOrder.save();
 		const orderID: string = orderSaved.id;
-		const preferenceStructure = createPreferenceStructure(
-			userData,
-			productData,
-			productDetails,
-			orderID,
-		);
+		const preferenceStructure = createPreferenceStructure(userData, productData, orderID);
 		const urlToRedirect = await createPreference(preferenceStructure);
 		return { orderID, urlToRedirect };
 	} catch (error) {
@@ -86,9 +77,9 @@ export async function changeOrderStatusAndNotifyUser(id: string, topic: string) 
 						returnDocument: 'after',
 					},
 				);
-				const { userID, productDetails, productID } = updatedOrderDB;
+				const { userID, productDetails } = updatedOrderDB;
 				const user = await findUserByID(userID);
-				await sendOrderEmail(user.email, productDetails, productID);
+				await sendOrderEmail(user.email, productDetails);
 			}
 		}
 	} catch (error) {
