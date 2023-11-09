@@ -14,7 +14,7 @@ async function searchProduct(
 			});
 		}
 		const { id } = req.query;
-		const product = await searchProductAlgolia(id as string);
+		const product = await searchProductAlgolia([id] as string[]);
 		res.status(200).json({ product });
 	} catch (e) {
 		console.error({ Message: 'Error at endpoint auth', Error: e });
