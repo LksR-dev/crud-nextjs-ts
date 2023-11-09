@@ -1,22 +1,11 @@
 import dbConnect from 'lib/connection';
 import Order from 'models/order';
 import { findUserByID } from 'controllers/user';
-import { Preference, UserInterface, ProductInterface } from 'lib/types';
+import { Preference, UserInterface } from 'lib/types';
 import { createPreference, getMerchantOrder } from 'lib/mercadopago';
 import { sendOrderEmail } from 'lib/sendgrid';
 
-function createPreferenceStructure(userData: UserInterface, productData, orderID) {
-	const items = productData.results.map((product) => {
-		const { title, description, images, unit_price } = product.fields;
-		return {
-			title,
-			description,
-			picture_url: images[0].url,
-			unit_price,
-			currency_id: 'ARS',
-			quantity: 1,
-		};
-	});
+function createPreferenceStructure(userData: UserInterface, items, orderID) {
 	const { phone, identification, address, email, name, surname } = userData;
 	const preference: Preference = {
 		items,
@@ -33,28 +22,34 @@ function createPreferenceStructure(userData: UserInterface, productData, orderID
 			pending: 'https://ecommerce-front-sage-three.vercel.app/',
 		},
 		external_reference: orderID,
-		notification_url: 'https://webhook.site/09bfb75a-476e-4299-91b9-e97e5504cebc',
+		notification_url: 'https://crud-nextjs-ts.vercel.app/api/webhooks/mercadopago',
 	};
 	return preference;
 }
 
-export async function createOrderDB(
-	userData: UserInterface,
-	productData,
-	productsIDs: string[],
-	productDetails,
-) {
+export async function createOrderDB(userData: UserInterface, productData, productsIDs: string[]) {
 	await dbConnect();
 	try {
+		const items = productData.results.map((product) => {
+			const { title, description, images, unit_price } = product.fields;
+			return {
+				title,
+				description,
+				picture_url: images[0].url,
+				unit_price,
+				currency_id: 'ARS',
+				quantity: 1,
+			};
+		});
 		const newOrder = new Order({
 			userID: userData.id,
 			productID: productsIDs,
-			productDetails,
+			productDetails: items,
 			status: 'pending',
 		});
 		const orderSaved = await newOrder.save();
 		const orderID: string = orderSaved.id;
-		const preferenceStructure = createPreferenceStructure(userData, productData, orderID);
+		const preferenceStructure = createPreferenceStructure(userData, items, orderID);
 		const urlToRedirect = await createPreference(preferenceStructure);
 		return { orderID, urlToRedirect };
 	} catch (error) {

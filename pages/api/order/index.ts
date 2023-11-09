@@ -17,7 +17,7 @@ async function createOrder(req: NextApiRequest, res: NextApiResponse, token) {
 		if (!productsIDs) return res.status(400).send('Product ID is required');
 		const userByID: UserInterface = await findUserByID(token.userID);
 		const productsByIDs = await searchProductAlgolia(productsIDs as string[]);
-		const orderCreated = await createOrderDB(userByID, productsByIDs, productsIDs, req.body);
+		const orderCreated = await createOrderDB(userByID, productsByIDs, productsIDs);
 		res.status(201).json(orderCreated);
 	} catch (e) {
 		console.error({ Message: 'Error at create order auth', Error: e });
