@@ -24,7 +24,6 @@ export default async function sendCode(
 
 export async function sendOrderEmail(userEmail, productDetails) {
 	try {
-		console.log(productDetails);
 		const msg = {
 			to: userEmail,
 			from: 'lucasmruiz05@gmail.com',
@@ -33,7 +32,7 @@ export async function sendOrderEmail(userEmail, productDetails) {
 			html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1>¡Ya está listo el detalle de tu compra!</h1>
-          ${productDetails.items
+          ${productDetails
 						.map(
 							(product) => `
             <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
