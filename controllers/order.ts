@@ -59,6 +59,7 @@ export async function createOrderDB(userData: UserInterface, productData, produc
 }
 
 export async function changeOrderStatusAndNotifyUser(id: string, topic: string) {
+	await dbConnect();
 	try {
 		if (topic === 'merchant_order') {
 			const order = await getMerchantOrder(id);
@@ -84,8 +85,10 @@ export async function changeOrderStatusAndNotifyUser(id: string, topic: string) 
 }
 
 export async function getMyOrders(userID: string) {
+	await dbConnect();
 	try {
-		return await Order.find({ userID });
+		const orders = await Order.find({ userID }).exec();
+		return orders;
 	} catch (error) {
 		console.error({ Message: 'Error to change order status and notify user', Error: error });
 		throw error;
@@ -93,6 +96,7 @@ export async function getMyOrders(userID: string) {
 }
 
 export async function getOrder(id: string) {
+	await dbConnect();
 	try {
 		return await Order.findById(id);
 	} catch (error) {
