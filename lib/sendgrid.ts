@@ -24,6 +24,7 @@ export default async function sendCode(
 
 export async function sendOrderEmail(userEmail, productDetails) {
 	try {
+		console.log(productDetails);
 		const msg = {
 			to: userEmail,
 			from: 'lucasmruiz05@gmail.com',
