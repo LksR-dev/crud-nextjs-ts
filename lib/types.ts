@@ -63,8 +63,9 @@ export interface Preference {
 		surname: string;
 	};
 	back_urls: {
-		succes: string;
+		success: string;
 		pending: string;
+		failure: string;
 	};
 	external_reference: number;
 	notification_url: string;

@@ -18,8 +18,9 @@ function createPreferenceStructure(userData: UserInterface, items, orderID) {
 			surname,
 		},
 		back_urls: {
-			succes: 'https://ecommerce-front-sage-three.vercel.app/pay/success',
+			success: 'https://ecommerce-front-sage-three.vercel.app/pay/success',
 			pending: 'https://ecommerce-front-sage-three.vercel.app/pay/pending',
+			failure: 'https://ecommerce-front-sage-three.vercel.app/pay/failure',
 		},
 		external_reference: orderID,
 		notification_url: 'https://crud-nextjs-ts.vercel.app/api/webhooks/mercadopago?',
